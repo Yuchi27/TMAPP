@@ -1,0 +1,233 @@
+/* ═══════════════════════════════
+   TABLET  (max 1024px)
+═══════════════════════════════ */
+@media (max-width: 1024px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .panel-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kanban {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kanban .column:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .top-actions {
+    flex-wrap: wrap;
+  }
+}
+
+/* ═══════════════════════════════
+   MOBILE  (max 768px)
+═══════════════════════════════ */
+@media (max-width: 768px) {
+  /* Hide sidebar, show bottom nav instead */
+  .sidebar {
+    display: none;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .main {
+    padding: 16px;
+    padding-bottom: 80px; /* space for bottom nav */
+  }
+
+  .topbar {
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  .topbar .page-title {
+    font-size: 18px;
+  }
+
+  /* Stats */
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .stat-num { font-size: 24px; }
+
+  /* Dashboard panels */
+  .panel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tasks toolbar */
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-wrap { max-width: 100%; }
+
+  .filter-btns {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+  }
+
+  .filter-btn { white-space: nowrap; }
+
+  /* Kanban → single column */
+  .kanban {
+    grid-template-columns: 1fr;
+  }
+
+  .kanban .column:last-child {
+    grid-column: auto;
+  }
+
+  /* Calendar */
+  .cal-grid {
+    font-size: 11px;
+  }
+
+  .cal-cell {
+    min-height: 60px;
+    padding: 4px;
+  }
+
+  .cal-sidebar {
+    display: none;
+  }
+
+  .cal-main {
+    width: 100% !important;
+  }
+
+  .cal-header-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Top row greeting */
+  .top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .top-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* Modal */
+  .modal {
+    padding: 20px 18px;
+    width: 95vw;
+  }
+
+  .modal-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════
+   BOTTOM NAV  (mobile only)
+═══════════════════════════════ */
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a2537;
+    height: 64px;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 99;
+    border-top: 1px solid #243044;
+  }
+
+  .bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: #6b7a99;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: color 0.15s;
+  }
+
+  .bottom-nav a i {
+    font-size: 22px;
+  }
+
+  .bottom-nav a.active,
+  .bottom-nav a:hover {
+    color: #fff;
+  }
+
+  .bottom-nav a.active i {
+    color: #6c63ff;
+  }
+}
+
+/* ═══════════════════════════════
+   INSTALL BUTTON
+═══════════════════════════════ */
+#install-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+#install-btn:hover { background: #5a52d5; }
+
+@media (max-width: 768px) {
+  #install-btn {
+    position: fixed;
+    bottom: 76px;
+    right: 16px;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(108,99,255,0.4);
+  }
+}

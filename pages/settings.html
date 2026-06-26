@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TMA — Settings</title>
+  <meta name="theme-color" content="#1a2537">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TMAPP">
+<link rel="manifest" href="../root/manifest.json">
+<link rel="stylesheet" href="../styles/responsive.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../styles/main.css">
@@ -86,6 +92,14 @@
 
     </main>
   </div>
+  <!-- Bottom Nav (mobile) -->
+<nav class="bottom-nav">
+  <a href="dashboard.html"><i class="ti ti-layout-dashboard"></i> Home</a>
+  <a href="tasks.html"><i class="ti ti-checkbox"></i> Tasks</a>
+  <a href="calendar.html"><i class="ti ti-calendar"></i> Calendar</a>
+  <a href="settings.html"><i class="ti ti-settings"></i> Settings</a>
+</nav>
+<script src="../scripts/pwa.js"></script>
 
   <script type="module" src="../scripts/settings.js"></script>
 </body>
