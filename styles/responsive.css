@@ -206,6 +206,65 @@
   }
 }
 
+@media (max-width: 768px) {
+  /* ... existing styles ... */
+
+  /* ── CALENDAR ── */
+  .cal-body {
+    flex-direction: column;
+  }
+
+  .cal-side {
+    width: 100%;
+  }
+
+  .cal-grid-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .cal-grid {
+    min-width: 500px;
+  }
+
+  .cal-day {
+    min-height: 70px;
+    padding: 4px;
+  }
+
+  .day-num {
+    font-size: 11px;
+  }
+
+  .day-item {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+
+  .cal-head {
+    font-size: 11px;
+    padding: 8px 0;
+  }
+
+  .month-label {
+    font-size: 18px;
+  }
+
+  .cal-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .legend {
+    gap: 8px;
+  }
+
+  .legend-item {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}
+
 /* ═══════════════════════════════
    BOTTOM NAV  (mobile only)
 ═══════════════════════════════ */
