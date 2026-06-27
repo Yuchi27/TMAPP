@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
+  
 }
 
 body {
@@ -11,31 +12,49 @@ body {
   align-items: center;
   justify-content: center;
   background: #f0f0f5;
+  
 }
 
 .card {
+  position: relative;
   display: flex;
-  width: 640px;
+  width: 650px;
   min-height: 380px;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+  box-shadow: 20px 20px 40px 20px rgba(106, 0, 255, 0.13);
+}
+
+.card.active .dk{
+    transform: translateX(138%);
 }
 
 .dk {
-  background: #1e2d40;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 42%;
+  height: 100%;
+
+  background: #8100D1;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2.5rem 2rem;
   gap: 20px;
+
+  z-index: 2;
+
+  transition: transform .7s cubic-bezier(.68,-0.55,.27,1.55);
+  will-change: transform;
 }
 
 .logo-box {
   border: 2.5px solid #fff;
   border-radius: 6px;
-  padding: 5px 18px;
+  padding: 9px 18px;
   color: #fff;
   font-size: 20px;
   font-weight: 800;
@@ -43,7 +62,7 @@ body {
 }
 
 .dk-sub {
-  color: #8a9bb0;
+  color: #e8ebef;
   font-size: 13px;
   text-align: center;
 }
@@ -56,7 +75,7 @@ body {
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
-  padding: 11px 32px;
+  padding: 11px 10px;
   width: 100%;
   max-width: 180px;
 }
@@ -65,13 +84,18 @@ body {
   background: #e8eef8;
 }
 
-.lt {
-  background: #e8eaf0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2.5rem 2.5rem;
-  gap: 14px;
+.lt{
+    margin-left:42%;
+    width:58%;
+    background:#e8eaf0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:2rem;
+    gap: 15px;
+
+    transition:all .7s ease;
 }
 
 .lt h2 {
@@ -101,7 +125,7 @@ body {
   font-size: 13px;
   color: #1e2d40;
   outline: none;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.07);
+  box-shadow: 2px 8px 6px rgba(0, 0, 0, 0.07);
 }
 
 .fld input:focus {
@@ -121,6 +145,7 @@ body {
 .row input[type="checkbox"] {
   width: 15px;
   height: 15px;
+  cursor: pointer;
   accent-color: #4a7cdc;
 }
 
