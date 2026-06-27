@@ -117,7 +117,38 @@
           <button class="btn-danger" id="settings-logout-btn">Sign out</button>
         </div>
       </div>
- 
+            <!-- CHANGE PASSWORD -->
+      <div class="settings-card">
+        <h3>Change Password</h3>
+        <div class="fld" style="margin-bottom:12px">
+          <label>New Password</label>
+          <input type="password" id="new-pass" placeholder="Enter new password">
+        </div>
+        <div class="fld" style="margin-bottom:12px">
+          <label>Confirm New Password</label>
+          <input type="password" id="confirm-pass" placeholder="Confirm new password">
+        </div>
+        <button class="btn-save" id="change-pass-btn">Change Password</button>
+        <div class="msg" id="pass-msg"></div>
+      </div>
+
+      <!-- ACCOUNT INFO -->
+      <div class="settings-card">
+        <h3>Account Info</h3>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Role</div>
+            <div class="setting-sub" id="user-role">—</div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Joined</div>
+            <div class="setting-sub" id="user-joined">—</div>
+          </div>
+        </div>
+      </div>
+      
     </main>
   </div>
   <!-- Bottom Nav (mobile) -->

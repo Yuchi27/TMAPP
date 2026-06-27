@@ -1,15 +1,16 @@
-import { auth } from "./firebase.js";
-import { onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { auth, db } from "./firebase.js";
+import { onAuthStateChanged, signOut, updatePassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const darkToggle     = document.getElementById("dark-toggle");
-const avatarBox      = document.getElementById("profile-avatar");
-const avatarInput    = document.getElementById("avatar-input");
+const darkToggle      = document.getElementById("dark-toggle");
+const avatarBox       = document.getElementById("profile-avatar");
+const avatarInput     = document.getElementById("avatar-input");
 const avatarUploadBtn = document.getElementById("avatar-upload-btn");
-const nicknameInput  = document.getElementById("nickname-input");
-const saveBtn        = document.getElementById("profile-save-btn");
-const msgEl          = document.getElementById("profile-msg");
+const nicknameInput   = document.getElementById("nickname-input");
+const saveBtn         = document.getElementById("profile-save-btn");
+const msgEl           = document.getElementById("profile-msg");
 
-let pendingPhotoDataUrl = null; // holds resized base64 until user hits Save
+let pendingPhotoDataUrl = null;
 
 function syncToggleUI() {
   const isDark = window.getTheme() === "dark";
@@ -32,8 +33,6 @@ function renderAvatar(photoURL) {
     : `<i class="ti ti-user"></i>`;
 }
 
-// Resize + compress the chosen image so it's small enough to store
-// directly on the Firebase Auth profile (photoURL field).
 function resizeImage(file, maxSize = 160, quality = 0.8) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -65,21 +64,18 @@ avatarUploadBtn.addEventListener("click", () => avatarInput.click());
 avatarInput.addEventListener("change", async () => {
   const file = avatarInput.files[0];
   if (!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    return setMsg("Please choose an image file.", "err");
-  }
-
+  if (!file.type.startsWith("image/")) return setMsg("Please choose an image file.", "err");
   try {
     const dataUrl = await resizeImage(file);
     pendingPhotoDataUrl = dataUrl;
-    renderAvatar(dataUrl); // instant preview, not saved yet
+    renderAvatar(dataUrl);
     setMsg("Photo ready — click Save Changes to apply.", "ok");
   } catch {
     setMsg("Couldn't read that image. Try another one.", "err");
   }
 });
 
+// ── SAVE PROFILE — Firestore only, no Firebase Auth updateProfile ──
 saveBtn.addEventListener("click", async () => {
   const nickname = nicknameInput.value.trim();
   if (!nickname) return setMsg("Nickname can't be empty.", "err");
@@ -88,10 +84,11 @@ saveBtn.addEventListener("click", async () => {
   saveBtn.textContent = "Saving...";
 
   try {
-    const updates = { displayName: nickname };
-    if (pendingPhotoDataUrl) updates.photoURL = pendingPhotoDataUrl;
+    const firestoreUpdate = { name: nickname };
+    if (pendingPhotoDataUrl) firestoreUpdate.photoURL = pendingPhotoDataUrl;
+    await updateDoc(doc(db, "users", auth.currentUser.uid), firestoreUpdate);
 
-    await updateProfile(auth.currentUser, updates);
+    if (pendingPhotoDataUrl) renderAvatar(pendingPhotoDataUrl);
     pendingPhotoDataUrl = null;
     setMsg("Profile updated!", "ok");
   } catch (e) {
@@ -102,18 +99,79 @@ saveBtn.addEventListener("click", async () => {
   }
 });
 
+// ── CHANGE PASSWORD ──
+document.getElementById("change-pass-btn").addEventListener("click", async () => {
+  const newPass     = document.getElementById("new-pass").value;
+  const confirmPass = document.getElementById("confirm-pass").value;
+  const passMsg     = document.getElementById("pass-msg");
+
+  if (!newPass || !confirmPass) {
+    passMsg.className = "msg err";
+    passMsg.textContent = "Fill in both fields.";
+    return;
+  }
+  if (newPass !== confirmPass) {
+    passMsg.className = "msg err";
+    passMsg.textContent = "Passwords do not match.";
+    return;
+  }
+  if (newPass.length < 6) {
+    passMsg.className = "msg err";
+    passMsg.textContent = "Password must be 6+ characters.";
+    return;
+  }
+
+  try {
+    await updatePassword(auth.currentUser, newPass);
+    passMsg.className = "msg ok";
+    passMsg.textContent = "Password changed successfully!";
+    document.getElementById("new-pass").value = "";
+    document.getElementById("confirm-pass").value = "";
+  } catch(e) {
+    passMsg.className = "msg err";
+    passMsg.textContent = e.code === "auth/requires-recent-login"
+      ? "Please sign out and sign in again before changing password."
+      : e.message;
+  }
+});
+
 async function doLogout() {
   await signOut(auth);
   window.location.replace("auth.html");
 }
 
-document.addEventListener("tma:logout", doLogout); // fired by nav.js
+document.addEventListener("tma:logout", doLogout);
 document.getElementById("settings-logout-btn").addEventListener("click", doLogout);
 
-onAuthStateChanged(auth, (user) => {
+// ── AUTH STATE ──
+onAuthStateChanged(auth, async (user) => {
   if (!user) { window.location.replace("auth.html"); return; }
+
   nicknameInput.value = user.displayName || user.email.split("@")[0];
   document.getElementById("profile-email").textContent = user.email;
-  renderAvatar(user.photoURL);
   syncToggleUI();
+
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if (snap.exists()) {
+      const data = snap.data();
+
+      // Use name from Firestore if available
+      if (data.name) nicknameInput.value = data.name;
+
+      // Photo from Firestore
+      renderAvatar(data.photoURL || null);
+
+      // Role
+      document.getElementById("user-role").textContent =
+        data.role === "admin" ? "🛡️ Admin" : "👤 Regular User";
+
+      // Joined date
+      if (data.createdAt) {
+        const d = data.createdAt.toDate();
+        document.getElementById("user-joined").textContent =
+          d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+      }
+    }
+  } catch(e) {}
 });
