@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TMAPP — Manage Users</title>
+  <meta name="theme-color" content="#1a2537">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="TMAPP">
+  <link rel="manifest" href="../manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/dashboard.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <link rel="stylesheet" href="../styles/darkmode.css">
+  <link rel="stylesheet" href="../styles/responsive.css">
+  <script src="../scripts/loader.js"></script>
+  <script src="../scripts/theme.js"></script>
+</head>
+<body>
+
+  <div id="loader"><div class="spinner"></div></div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="logo">[ADMIN]</div>
+    <div class="page-title">Manage Users</div>
+    <div class="topbar-right">
+      <button class="notif-btn"><i class="ti ti-bell"></i></button>
+      <div class="avatar"><i class="ti ti-user"></i></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <nav>
+        <a href="dashboard.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+        <a href="users.html" class="active"><i class="ti ti-users"></i> Manage Users</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="#" id="go-to-app"><i class="ti ti-arrow-left"></i> Go to App</a>
+        <a href="#" id="logout-btn"><i class="ti ti-logout"></i> Sign out</a>
+      </div>
+      <div class="sidebar-footer">© 2026 — Archie L. Agui Jr.. All rights reserved.</div>
+    </aside>
+
+    <main class="main">
+
+      <!-- SEARCH + FILTER -->
+      <div class="toolbar" style="margin-bottom:20px">
+        <div class="search-wrap" style="max-width:360px">
+          <i class="ti ti-search"></i>
+          <input type="text" id="search-input" placeholder="Search users...">
+        </div>
+        <div class="filter-btns">
+          <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+          <button class="filter-btn" onclick="setFilter('admin', this)">Admins</button>
+          <button class="filter-btn" onclick="setFilter('user', this)">Regular</button>
+        </div>
+      </div>
+
+      <!-- USERS TABLE -->
+      <div class="panel" style="padding:0;overflow:hidden">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:24px;color:#8a9bb0">Loading users...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Bottom Nav (mobile) -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html"><i class="ti ti-layout-dashboard"></i> Home</a>
+    <a href="users.html" class="active"><i class="ti ti-users"></i> Users</a>
+    <a href="#" id="go-to-app-mobile"><i class="ti ti-arrow-left"></i> App</a>
+    <a href="#" id="logout-btn-mobile"><i class="ti ti-logout"></i> Sign out</a>
+  </nav>
+
+  <script src="../scripts/pwa.js"></script>
+  <script type="module" src="../scripts/admin-users.js"></script>
+</body>
+</html>

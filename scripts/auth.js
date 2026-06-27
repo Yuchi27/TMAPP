@@ -1,6 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { auth, db } from "../scripts/firebase.js";
 import {
-  getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -9,25 +8,41 @@ import {
   browserSessionPersistence,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBBq8Wf-GEdUXm-fYjpvqLktGxkylPQTmI",
-  authDomain: "tmapp-6f402.firebaseapp.com",
-  projectId: "tmapp-6f402",
-  storageBucket: "tmapp-6f402.firebasestorage.app",
-  messagingSenderId: "729540723639",
-  appId: "1:729540723639:web:09c5981457ffacb1401e32"
-};
-
-const auth = getAuth(initializeApp(firebaseConfig));
-
-// Kung naka-login na, diretso dashboard
-onAuthStateChanged(auth, (user) => {
-  if (user) {
+// ── Helper: check role then redirect ──
+async function redirectByRole(user) {
+  console.log("redirectByRole called");
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    console.log("UID:", user.uid);
+    console.log("Doc exists:", snap.exists());
+    console.log("Data:", snap.data());
+    if (snap.exists() && snap.data().role === "admin") {
+      window.location.replace("../admin/dashboard.html");
+    } else {
+      window.location.replace("dashboard.html");
+    }
+  } catch(e) {
+    console.log("Error:", e);
     window.location.replace("dashboard.html");
+  }
+}
+
+// ── Kung naka-login na, diretso sa tamang dashboard ──
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
+  if (window.location.pathname.includes("auth.html")) {
+    await redirectByRole(user);
   }
 });
 
+// ── Show/hide panels ──
 window.show = (v) => {
   ['login', 'register', 'forgot'].forEach(x => {
     document.getElementById('v-' + x).style.display = 'none';
@@ -45,6 +60,7 @@ const setMsg = (id, text, type) => {
   e.className = 'msg ' + type;
 };
 
+// ── LOGIN ──
 window.doLogin = async () => {
   const email = document.getElementById('li-email').value.trim();
   const pass  = document.getElementById('li-pass').value;
@@ -54,8 +70,8 @@ window.doLogin = async () => {
 
   try {
     await setPersistence(auth, rem ? browserLocalPersistence : browserSessionPersistence);
-    await signInWithEmailAndPassword(auth, email, pass);
-    window.location.replace("dashboard.html");
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    await redirectByRole(cred.user);
   } catch (e) {
     const errors = {
       'auth/invalid-credential': 'Invalid email or password.',
@@ -67,6 +83,7 @@ window.doLogin = async () => {
   }
 };
 
+// ── REGISTER ──
 window.doRegister = async () => {
   const name  = document.getElementById('rg-name').value.trim();
   const email = document.getElementById('rg-email').value.trim();
@@ -78,7 +95,13 @@ window.doRegister = async () => {
   if (pass.length < 6) return setMsg('rg-msg', 'Password must be 6+ characters.', 'err');
 
   try {
-    await createUserWithEmailAndPassword(auth, email, pass);
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await setDoc(doc(db, "users", cred.user.uid), {
+      name:      name,
+      email:     email,
+      role:      "user",
+      createdAt: serverTimestamp()
+    });
     window.location.replace("dashboard.html");
   } catch (e) {
     const errors = {
@@ -90,6 +113,7 @@ window.doRegister = async () => {
   }
 };
 
+// ── FORGOT PASSWORD ──
 window.doForgot = async () => {
   const email = document.getElementById('fp-email').value.trim();
   if (!email) return setMsg('fp-msg', 'Enter your email.', 'err');

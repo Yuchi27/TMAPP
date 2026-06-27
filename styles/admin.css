@@ -1,0 +1,346 @@
+/* ── USERS TABLE ── */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table thead {
+  background: #1a2537;
+}
+
+.users-table th {
+  color: #8a9bb0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 14px 20px;
+  text-align: left;
+}
+
+.users-table td {
+  padding: 14px 20px;
+  font-size: 14px;
+  color: #1a2537;
+  border-bottom: 1px solid #e8eaf0;
+  vertical-align: middle;
+}
+
+.users-table tbody tr:hover {
+  background: #f7f8fc;
+}
+
+.users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── ROLE BADGE ── */
+.role-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.role-badge.admin {
+  background: #6c63ff22;
+  color: #6c63ff;
+}
+
+.role-badge.user {
+  background: #27ae6022;
+  color: #27ae60;
+}
+
+/* ── ACTION BUTTONS ── */
+.action-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-make-admin {
+  background: #6c63ff22;
+  color: #6c63ff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-make-admin:hover {
+  background: #6c63ff33;
+}
+
+.btn-remove-admin {
+  background: #f5a62322;
+  color: #f5a623;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-remove-admin:hover {
+  background: #f5a62333;
+}
+
+.btn-you {
+  background: #e8eaf0;
+  color: #8a9bb0;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: default;
+}
+
+/* ── USER AVATAR ── */
+.user-row-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar-sm {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1a2537;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.user-name-sm {
+  font-weight: 700;
+  font-size: 14px;
+  color: #1a2537;
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 10px;
+  padding: 0 14px;
+  gap: 8px;
+  flex: 1;
+}
+
+.search-wrap i { color: #8a9bb0; font-size: 17px; }
+
+.search-wrap input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #1a2537;
+  width: 100%;
+  padding: 10px 0;
+  background: transparent;
+}
+
+.search-wrap input::placeholder { color: #a0aab8; }
+
+.filter-btns { display: flex; gap: 8px; }
+
+.filter-btn {
+  background: #fff;
+  color: #1a2537;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 18px;
+  cursor: pointer;
+}
+
+.filter-btn.active, .filter-btn:hover {
+  background: #1a2537;
+  color: #fff;
+  border-color: #1a2537;
+}
+
+/* ── PANEL ITEM (recent users) ── */
+.panel-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #243044;
+}
+
+.panel-item:last-child { border-bottom: none; }
+
+.panel-item .user-name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.panel-item .user-email {
+  color: #6b7a99;
+  font-size: 11px;
+}
+
+.panel-empty {
+  color: #4a5570;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 16px;
+}
+
+/* ── MOBILE TABLE ── */
+@media (max-width: 768px) {
+  .users-table th:nth-child(4),
+  .users-table td:nth-child(4) {
+    display: none;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 10px 12px;
+  }
+
+  .action-btns {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* ── ANNOUNCEMENTS ── */
+.ann-card {
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.ann-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ann-type {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a2537;
+}
+
+.ann-date {
+  font-size: 11px;
+  color: #8a9bb0;
+  flex: 1;
+}
+
+.ann-delete {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+}
+
+.ann-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a2537;
+  margin-bottom: 6px;
+}
+
+.ann-body {
+  font-size: 13px;
+  color: #4a5570;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.ann-by {
+  font-size: 11px;
+  color: #8a9bb0;
+  font-style: italic;
+}
+
+/* ── ANNOUNCEMENT FORM ── */
+.panel.light .fld label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2537;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.panel.light .fld input,
+.panel.light .fld textarea,
+.panel.light .fld select {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #1a2537;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  resize: vertical;
+}
+
+.panel.light .fld input:focus,
+.panel.light .fld textarea:focus,
+.panel.light .fld select:focus {
+  border-color: #6c63ff;
+}
+
+/* User-side announcement card */
+.user-ann-card {
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border-left: 4px solid #6c63ff;
+  background: #eef2ff;
+}
+
+.user-ann-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2537;
+  margin-bottom: 4px;
+}
+
+.user-ann-body {
+  font-size: 13px;
+  color: #4a5570;
+  line-height: 1.5;
+}
+
+.user-ann-meta {
+  font-size: 11px;
+  color: #8a9bb0;
+  margin-top: 6px;
+}

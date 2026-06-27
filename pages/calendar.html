@@ -30,7 +30,21 @@
     <div class="logo">[BETA]</div>
     <div class="page-title">My Calendar</div>
     <div class="topbar-right">
-      <button class="notif-btn"><i class="ti ti-bell"></i></button>
+      <div class="notif-wrap">
+  <button class="notif-btn" id="notif-bell" onclick="toggleNotifDropdown()">
+    <i class="ti ti-bell"></i>
+    <span id="notif-badge">0</span>
+  </button>
+  <div class="notif-dropdown" id="notif-dropdown">
+    <div class="notif-dropdown-header">
+      <span>Notifications</span>
+      <button onclick="markAllRead()">Mark all read</button>
+    </div>
+    <div class="notif-list" id="notif-list">
+      <div class="notif-empty">No notifications yet</div>
+    </div>
+  </div>
+</div>
       <div class="avatar"><i class="ti ti-user"></i></div>
     </div>
   </div>
@@ -102,7 +116,24 @@
   <a href="schedule.html"><i class="ti ti-star"></i> Schedule</a>
   <a href="analytics.html"><i class="ti ti-chart-bar"></i> Analytics</a>
   <a href="settings.html"><i class="ti ti-settings"></i> Settings</a>
-</nav>
+</nav><script>
+  function toggleNotifDropdown() {
+    document.getElementById("notif-dropdown").classList.toggle("open");
+  }
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".notif-wrap")) {
+      document.getElementById("notif-dropdown")?.classList.remove("open");
+    }
+  });
+  async function markAllRead() {
+    const { db, auth } = await import("../scripts/firebase.js");
+    const { collection, getDocs, updateDoc, doc, query, where } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const user = auth.currentUser;
+    if (!user) return;
+    const snap = await getDocs(query(collection(db, "users", user.uid, "notifications"), where("read", "==", false)));
+    snap.forEach(d => updateDoc(doc(db, "users", user.uid, "notifications", d.id), { read: true }));
+  }
+</script>
 <script src="../scripts/pwa.js"></script>
 
   <script type="module" src="../scripts/calendar.js"></script>

@@ -1,4 +1,39 @@
-const CACHE = "tmapp-v2"; // bumpa ni nga number (v3, v4...) kada dako nga deploy/structural change
+importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js");
+
+// ── Firebase config ──
+firebase.initializeApp({
+  apiKey: "AIzaSyBBq8Wf-GEdUXm-fYjpvqLktGxkylPQTmI",
+  authDomain: "tmapp-6f402.firebaseapp.com",
+  projectId: "tmapp-6f402",
+  storageBucket: "tmapp-6f402.firebasestorage.app",
+  messagingSenderId: "729540723639",
+  appId: "1:729540723639:web:09c5981457ffacb1401e32"
+});
+
+const messaging = firebase.messaging();
+
+// ── Background push notifications ──
+messaging.onBackgroundMessage((payload) => {
+  const { title, body, icon } = payload.notification || {};
+  self.registration.showNotification(title || "TMAPP", {
+    body: body || "You have a new notification.",
+    icon: icon || "/icons/icon-192.png",
+    badge: "/icons/icon-192.png",
+    data: payload.data || {}
+  });
+});
+
+// ── Notification click ──
+self.addEventListener("notificationclick", (e) => {
+  e.notification.close();
+  e.waitUntil(
+    clients.openWindow(e.notification.data?.url || "/pages/dashboard.html")
+  );
+});
+
+// ── Cache ──
+const CACHE = "tmapp-v4"; // bumpa ni nga number (v5, v6...) kada dako nga deploy/structural change
 const ASSETS = [
   "/index.html",
   "/pages/auth.html",
@@ -48,8 +83,6 @@ self.addEventListener("activate", (e) => {
   self.clients.claim();
 });
 
-// Pwede pud i-trigger gikan sa page side (pwa.js) para pugson mag-activate
-// dayon ang bag-ong SW imbes maghulat sa tanan tabs nga masirado.
 self.addEventListener("message", (e) => {
   if (e.data && e.data.type === "SKIP_WAITING") {
     self.skipWaiting();
@@ -58,6 +91,16 @@ self.addEventListener("message", (e) => {
 
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
+
+  const url = new URL(e.request.url);
+
+  // CRITICAL: dili gyud hilabtan ang cross-origin requests (Firestore listen
+  // channel, Firebase Auth, Firebase Messaging, Google Fonts/CDN, etc).
+  // Kung i-proxy/cache nato ni, ma-disrupt ang real-time Firestore connection
+  // — mao na nga dili dayon makit-an ang bag-ong task/update kung walay
+  // manual refresh.
+  if (url.origin !== self.location.origin) return;
+
   e.respondWith(
     fetch(e.request)
       .then((res) => {

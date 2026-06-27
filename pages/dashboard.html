@@ -5,20 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TMA — Dashboard</title>
   <meta name="theme-color" content="#1a2537">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="TMAPP">
-<link rel="manifest" href="../manifest.json">
-
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="TMAPP">
+  <link rel="manifest" href="../manifest.json">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../styles/main.css">
   <link rel="stylesheet" href="../styles/dashboard.css">
   <link rel="stylesheet" href="../styles/darkmode.css">
-<link rel="stylesheet" href="../styles/responsive.css">
+  <link rel="stylesheet" href="../styles/responsive.css">
   <script src="../scripts/loader.js"></script>
-      <script src="../scripts/theme.js"></script>
-      
+  <script src="../scripts/theme.js"></script>
 </head>
 <body>
 
@@ -27,15 +25,31 @@
     <div class="logo">[BETA]</div>
     <div class="page-title">Dashboard</div>
     <div class="topbar-right">
-      <button class="notif-btn"><i class="ti ti-bell"></i></button>
+
+      <!-- Notification Bell -->
+      <div class="notif-wrap">
+        <button class="notif-btn" id="notif-bell" onclick="toggleNotifDropdown()">
+          <i class="ti ti-bell"></i>
+          <span id="notif-badge">0</span>
+        </button>
+        <div class="notif-dropdown" id="notif-dropdown">
+          <div class="notif-dropdown-header">
+            <span>Notifications</span>
+            <button onclick="markAllRead()">Mark all read</button>
+          </div>
+          <div class="notif-list" id="notif-list">
+            <div class="notif-empty">No notifications yet</div>
+          </div>
+        </div>
+      </div>
+
       <div class="avatar"><i class="ti ti-user"></i></div>
-      
     </div>
   </div>
 
-    <div id="loader">
-      <div class="spinner"></div>
-    </div>
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
 
   <div class="layout">
     <!-- SIDEBAR -->
@@ -71,7 +85,6 @@
 
       <div class="section-title">Task Overview</div>
 
-      <!-- STAT CARDS -->
       <div class="stat-grid">
         <div class="stat-card">
           <div class="stat-icon purple">📝</div>
@@ -107,7 +120,6 @@
         </div>
       </div>
 
-      <!-- PANELS -->
       <div class="panel-grid">
         <div class="panel">
           <div class="panel-header">
@@ -132,7 +144,6 @@
         </div>
       </div>
 
-      <!-- BOTTOM -->
       <div class="bottom-grid">
         <div class="panel">
           <div class="panel-header">
@@ -141,25 +152,48 @@
           <div id="schedules-list"><p class="panel-empty">No schedules yet</p></div>
         </div>
         <div class="panel light">
-          <div class="panel-header">
-            <span>Quotes</span>
-          </div>
-          <div class="quote-text" id="quote-text">"The secret of getting ahead is getting started."<br><br>— Mark Twain</div>
+          <div class="panel-header"><span>Quotes</span></div>
+          <div class="quote-text" id="quote-text"></div>
         </div>
       </div>
+      <!-- ANNOUNCEMENTS -->
+<div class="panel light" style="margin-top:14px">
+  <div class="panel-header">
+    <span><i class="ti ti-speakerphone" style="color:#6c63ff"></i> Announcements</span>
+  </div>
+  <div id="announcements-list"><p class="panel-empty">No announcements</p></div>
+</div>
     </main>
   </div>
 
   <!-- Bottom Nav (mobile) -->
-<nav class="bottom-nav">
-  <a href="dashboard.html" class="active"><i class="ti ti-layout-dashboard"></i> Home</a>
-  <a href="tasks.html"><i class="ti ti-checkbox"></i> Tasks</a>
-  <a href="calendar.html"><i class="ti ti-calendar"></i> Calendar</a>
-  <a href="schedule.html"><i class="ti ti-star"></i> Schedule</a>
-  <a href="analytics.html"><i class="ti ti-chart-bar"></i> Analytics</a>
-  <a href="settings.html"><i class="ti ti-settings"></i> Settings</a>
-</nav>
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="active"><i class="ti ti-layout-dashboard"></i> Home</a>
+    <a href="tasks.html"><i class="ti ti-checkbox"></i> Tasks</a>
+    <a href="calendar.html"><i class="ti ti-calendar"></i> Calendar</a>
+    <a href="schedule.html"><i class="ti ti-star"></i> Schedule</a>
+    <a href="analytics.html"><i class="ti ti-chart-bar"></i> Analytics</a>
+    <a href="settings.html"><i class="ti ti-settings"></i> Settings</a>
+  </nav>
 
+  <script>
+    function toggleNotifDropdown() {
+      document.getElementById("notif-dropdown").classList.toggle("open");
+    }
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".notif-wrap")) {
+        document.getElementById("notif-dropdown")?.classList.remove("open");
+      }
+    });
+    async function markAllRead() {
+      const { db, auth } = await import("../scripts/firebase.js");
+      const { collection, getDocs, updateDoc, doc, query, where } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+      const user = auth.currentUser;
+      if (!user) return;
+      const snap = await getDocs(query(collection(db, "users", user.uid, "notifications"), where("read", "==", false)));
+      snap.forEach(d => updateDoc(doc(db, "users", user.uid, "notifications", d.id), { read: true }));
+    }
+  </script>
   <script src="../scripts/pwa.js"></script>
   <script type="module" src="../scripts/dashboard.js"></script>
 </body>
