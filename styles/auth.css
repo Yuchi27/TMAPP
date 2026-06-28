@@ -30,11 +30,10 @@ body {
 }
 
 .dk {
-  position: absolute;
+ 
   left: 0;
   top: 0;
-  width: 42%;
-  height: 100%;
+  
 
   background: #8100D1;
 
@@ -85,8 +84,7 @@ body {
 }
 
 .lt{
-    margin-left:42%;
-    width:58%;
+    
     background:#e8eaf0;
 
     display:flex;
