@@ -33,7 +33,7 @@ self.addEventListener("notificationclick", (e) => {
 });
 
 // ── Cache ──
-const CACHE = "tmapp-v4"; // bumpa ni nga number (v5, v6...) kada dako nga deploy/structural change
+const CACHE = "taskora-v1"; // bumpa ni nga number (v5, v6...) kada dako nga deploy/structural change
 const ASSETS = [
   "/index.html",
   "/pages/auth.html",
