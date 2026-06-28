@@ -468,24 +468,64 @@
    SMALL PHONE (max 480px)
 ═══════════════════════════════ */
 @media (max-width: 480px) {
-  .stat-grid {
-    grid-template-columns: 1fr;
+
+  .stat-grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
-  .stat-card {
-    gap: 12px;
+  .stat-card{
+    padding: 12px;
   }
 
-  .top-actions button {
-    flex: 1 0 100%;
-  }
-
-  .modal {
+  .modal{
     width: 100%;
     padding: 18px 16px;
   }
 
-  .profile-row {
+  .profile-row{
     flex-wrap: wrap;
   }
+
+}
+
+
+@media (max-width: 768px){
+
+    .top-actions{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        width: 100%;
+    }
+
+    .top-actions button{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2px;
+        padding: 12px 8px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .top-actions button i{
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .top-info-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+}
+
+.top-info-card{
+    min-height:auto;
+}
+
+.top-info-card #announcements-list{
+    max-height:90px;
+}
+
 }

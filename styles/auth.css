@@ -56,8 +56,16 @@ body {
   padding: 9px 18px;
   color: #fff;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 10;
   letter-spacing: 1px;
+}
+
+.logo {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .dk-sub {

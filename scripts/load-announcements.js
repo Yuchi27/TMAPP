@@ -22,11 +22,26 @@ export function loadUserAnnouncements(elementId = "announcements-list") {
       ? anns.map(a => {
           const cfg = typeConfig[a.type] || typeConfig.info;
           return `
-            <div class="user-ann-card" style="border-left-color:${cfg.color};background:${cfg.bg}">
-              <div class="user-ann-title">${cfg.emoji} ${a.title}</div>
-              <div class="user-ann-body">${a.body}</div>
-              <div class="user-ann-meta">Posted by ${a.postedBy || "Admin"}</div>
-            </div>`;
+<div class="user-ann-card">
+
+    <div class="user-ann-header">
+        <div class="user-ann-icon" style="background:${cfg.bg};color:${cfg.color}">
+            ${cfg.emoji}
+        </div>
+
+        <div class="user-ann-info">
+            <div class="user-ann-title">${a.title}</div>
+            <div class="user-ann-author">
+                <div class="user-ann-meta">Posted by Taskora Team</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-ann-body">
+        ${a.body}
+    </div>
+
+</div>`;
         }).join("")
       : `<p class="panel-empty" style="color:#8a9bb0">No announcements</p>`;
   });
