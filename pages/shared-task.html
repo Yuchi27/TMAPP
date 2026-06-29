@@ -12,12 +12,37 @@
   <link rel="stylesheet" href="../styles/darkmode.css">
   <script src="../scripts/theme.js"></script>
   <style>
-    body { overflow: auto; display: block; background: #f0f2f8; min-height: 100vh; }
+    html { height: auto; overflow: visible; }
+    body {
+      display: block;
+      flex-direction: unset;
+      height: auto;
+      min-height: 100vh;
+      overflow: visible;
+      background: #f0f2f8;
+    }
 
     .shared-page-wrap {
-      max-width: 640px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 40px 20px 80px;
+    }
+
+    .shared-bottom-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .shared-bottom-row > .comments-section {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (max-width: 760px) {
+      .shared-bottom-row {
+        flex-direction: column;
+      }
     }
 
     .shared-header {
@@ -165,7 +190,7 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      max-height: 400px;
+      max-height: 520px;
       overflow-y: auto;
       margin-bottom: 16px;
     }
@@ -198,6 +223,157 @@
       font-size: 14px;
     }
 
+    .shared-note-item {
+      border-radius: 12px;
+      padding: 12px 14px;
+      border: 1px solid #e8eaf0;
+    }
+    .shared-note-item.c-yellow  { background: #fffde7; }
+    .shared-note-item.c-blue    { background: #e3f2fd; }
+    .shared-note-item.c-green   { background: #e8f5e9; }
+    .shared-note-item.c-pink    { background: #fce4ec; }
+    .shared-note-item.c-purple  { background: #ede7f6; }
+    .shared-note-item.c-orange  { background: #fff3e0; }
+    .shared-note-item.c-white   { background: #fff; }
+    .shared-note-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a2537;
+      margin-bottom: 4px;
+    }
+    .shared-note-body {
+      font-size: 13px;
+      color: #4a5570;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .shared-note-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .note-edit-btn {
+      background: rgba(0,0,0,0.06);
+      border: none;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a2537;
+      padding: 4px 9px;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .note-edit-btn:hover { background: rgba(0,0,0,0.12); }
+    .note-edit-form { display: flex; flex-direction: column; gap: 8px; }
+    .note-edit-form textarea {
+      min-height: 220px;
+      resize: vertical;
+    }
+    .note-edit-form input,
+    .note-edit-form textarea {
+      width: 100%;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      background: rgba(255,255,255,0.6);
+      outline: none;
+      color: #1a2537;
+    }
+    .note-edit-form input:focus,
+    .note-edit-form textarea:focus { border-color: #6c63ff; }
+    .note-edit-form-actions { display: flex; gap: 6px; justify-content: flex-end; }
+    .note-edit-save, .note-edit-cancel {
+      border: none; border-radius: 8px; font-size: 12px; font-weight: 700;
+      padding: 6px 12px; cursor: pointer;
+    }
+    .note-edit-save   { background: #1a2537; color: #fff; }
+    .note-edit-save:hover { background: #243044; }
+    .note-edit-cancel { background: rgba(0,0,0,0.06); color: #1a2537; }
+    .note-edit-cancel:hover { background: rgba(0,0,0,0.12); }
+    .add-note-btn {
+      background: #f0f2f8; border: 1.5px dashed #d0d8e8; border-radius: 10px;
+      font-size: 12px; font-weight: 700; color: #6c63ff;
+      padding: 8px 12px; cursor: pointer; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 4px;
+    }
+    .add-note-btn:hover { background: #ebeefc; }
+
+    .shared-note-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(0,0,0,0.06);
+      color: #6b7a99;
+      padding: 1px 7px;
+      border-radius: 5px;
+      margin-top: 6px;
+    }
+
+    .shared-task-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .st-edit-btn {
+      background: #f0f2f8;
+      border: none;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a2537;
+      padding: 7px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .st-edit-btn:hover { background: #e0e4f0; }
+    .st-edit-fields { display: none; flex-direction: column; gap: 12px; margin-top: 14px; }
+    .st-edit-fields.open { display: flex; }
+    .st-edit-row { display: flex; gap: 10px; }
+    .st-edit-row > div { flex: 1; }
+    .st-edit-fields label {
+      font-size: 11px; font-weight: 700; color: #8a9bb0;
+      text-transform: uppercase; display: block; margin-bottom: 5px;
+    }
+    .st-edit-fields input,
+    .st-edit-fields select,
+    .st-edit-fields textarea {
+      width: 100%;
+      background: #f0f2f8;
+      border: 1.5px solid #d0d8e8;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 13px;
+      color: #1a2537;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .st-edit-fields input:focus,
+    .st-edit-fields select:focus,
+    .st-edit-fields textarea:focus { border-color: #6c63ff; }
+    .st-edit-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .st-save-btn {
+      background: #1a2537; color: #fff; border: none; border-radius: 10px;
+      font-size: 13px; font-weight: 700; padding: 9px 18px; cursor: pointer;
+    }
+    .st-save-btn:hover { background: #243044; }
+    .st-cancel-btn {
+      background: #f0f2f8; color: #1a2537; border: none; border-radius: 10px;
+      font-size: 13px; font-weight: 700; padding: 9px 18px; cursor: pointer;
+    }
+    .st-cancel-btn:hover { background: #e0e4f0; }
+    .st-saved-msg { font-size: 12px; color: #27ae60; font-weight: 700; }
+
     #error-msg {
       text-align: center;
       color: #e74c3c;
@@ -218,13 +394,18 @@
 
     <div id="task-content" style="display:none">
       <div class="shared-task-card">
-        <h2 id="st-title"></h2>
-        <div class="shared-task-meta">
+        <div class="shared-task-card-top">
+          <h2 id="st-title" style="margin-bottom:0"></h2>
+          <button class="st-edit-btn" id="st-edit-toggle" style="display:none" onclick="toggleEditTask()">
+            <i class="ti ti-pencil"></i> Edit
+          </button>
+        </div>
+        <div class="shared-task-meta" id="st-view-meta" style="margin-top:14px">
           <span class="priority-badge" id="st-priority"></span>
           <span class="cat-badge" id="st-category" style="display:none"></span>
           <span class="meta-item" id="st-deadline" style="display:none"><i class="ti ti-calendar" style="font-size:13px"></i> <span></span></span>
         </div>
-        <div class="shared-status">
+        <div class="shared-status" id="st-view-status">
           <div class="status-dot" id="st-status-dot"></div>
           <span id="st-status-text"></span>
         </div>
@@ -232,10 +413,67 @@
           <label>Notes</label>
           <div id="st-notes"></div>
         </div>
+
+        <div class="st-edit-fields" id="st-edit-fields">
+          <div class="fld">
+            <label>Task Title</label>
+            <input type="text" id="st-edit-title">
+          </div>
+          <div class="st-edit-row">
+            <div>
+              <label>Priority</label>
+              <select id="st-edit-priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            <div>
+              <label>Category</label>
+              <select id="st-edit-category">
+                <option value="Personal">Personal</option>
+                <option value="School">School</option>
+                <option value="Work">Work</option>
+                <option value="Church">Church</option>
+              </select>
+            </div>
+          </div>
+          <div class="st-edit-row">
+            <div>
+              <label>Deadline</label>
+              <input type="datetime-local" id="st-edit-deadline">
+            </div>
+            <div>
+              <label>Status</label>
+              <select id="st-edit-status">
+                <option value="todo">In Progress</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+          <div class="fld">
+            <label>Notes</label>
+            <textarea id="st-edit-notes" rows="2"></textarea>
+          </div>
+          <div class="st-edit-actions">
+            <span class="st-saved-msg" id="st-saved-msg"></span>
+            <button class="st-cancel-btn" onclick="toggleEditTask(false)">Cancel</button>
+            <button class="st-save-btn" onclick="saveTaskEdit()">Save Changes</button>
+          </div>
+        </div>
       </div>
 
-      <div class="comments-section">
-        <h3><i class="ti ti-message-circle"></i> Comments</h3>
+      <div class="shared-bottom-row">
+        <div class="comments-section" id="linked-notes-section" style="display:none;">
+          <h3><i class="ti ti-notes"></i> Notes</h3>
+          <div id="shared-notes-list" style="display:flex; flex-direction:column; gap:10px; max-height:520px; overflow-y:auto; margin-bottom:10px;"></div>
+          <button class="add-note-btn" id="add-note-btn" style="display:none" onclick="addLinkedNote()">
+            <i class="ti ti-plus"></i> Add Note
+          </button>
+        </div>
+
+        <div class="comments-section">
+          <h3><i class="ti ti-message-circle"></i> Comments</h3>
 
         <div class="permission-notice" id="perm-notice" style="display:none">
           <i class="ti ti-info-circle"></i>
@@ -257,6 +495,7 @@
         <div class="login-prompt" id="login-prompt" style="display:none">
           <p>Sign in to TaskOra to leave a comment.</p>
           <a href="auth.html">Sign In</a>
+        </div>
         </div>
       </div>
     </div>
@@ -341,6 +580,211 @@
             document.getElementById("st-notes-wrap").style.display = "block";
             document.getElementById("st-notes").textContent = task.notes;
           }
+
+          // Show Edit button kung naa edit/full permission
+          if (["edit","full"].includes(permission)) {
+            document.getElementById("st-edit-toggle").style.display = "flex";
+          }
+
+          window.toggleEditTask = (open = true) => {
+            const fields = document.getElementById("st-edit-fields");
+            if (open) {
+              document.getElementById("st-edit-title").value    = task.title || "";
+              document.getElementById("st-edit-priority").value = task.priority || "Medium";
+              document.getElementById("st-edit-category").value = task.category || "Personal";
+              document.getElementById("st-edit-status").value   = task.status === "completed" ? "completed" : "todo";
+              document.getElementById("st-edit-notes").value    = task.notes || "";
+              if (task.deadline) {
+                const d = task.deadline.toDate ? task.deadline.toDate() : new Date(task.deadline);
+                const pad = n => String(n).padStart(2, "0");
+                document.getElementById("st-edit-deadline").value =
+                  `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+              } else {
+                document.getElementById("st-edit-deadline").value = "";
+              }
+              fields.classList.add("open");
+              document.getElementById("st-view-meta").style.display = "none";
+              document.getElementById("st-view-status").style.display = "none";
+            } else {
+              fields.classList.remove("open");
+              document.getElementById("st-view-meta").style.display = "flex";
+              document.getElementById("st-view-status").style.display = "flex";
+            }
+          };
+
+          window.saveTaskEdit = async () => {
+            const title    = document.getElementById("st-edit-title").value.trim();
+            const priority = document.getElementById("st-edit-priority").value;
+            const category = document.getElementById("st-edit-category").value;
+            const status   = document.getElementById("st-edit-status").value;
+            const notesVal = document.getElementById("st-edit-notes").value;
+            const dlVal    = document.getElementById("st-edit-deadline").value;
+
+            if (!title) return;
+
+            const msg = document.getElementById("st-saved-msg");
+            msg.textContent = "Saving...";
+
+            try {
+              await updateDoc(doc(db, "users", ownerUid, "tasks", taskId), {
+                title, priority, category, status,
+                notes: notesVal,
+                deadline: dlVal ? new Date(dlVal) : null,
+                updatedAt: serverTimestamp()
+              });
+
+              // Update local copy + view
+              task.title = title; task.priority = priority; task.category = category;
+              task.status = status; task.notes = notesVal;
+              task.deadline = dlVal ? new Date(dlVal) : null;
+
+              document.getElementById("st-title").textContent = title;
+              document.title = `${title} — TaskOra`;
+              document.getElementById("st-priority").textContent = priority;
+              document.getElementById("st-priority").className   = `priority-badge ${priority}`;
+
+              const cb = document.getElementById("st-category");
+              cb.style.display = "flex";
+              cb.innerHTML = `<i class="ti ti-user" style="font-size:11px"></i> ${category}`;
+
+              const dbEl = document.getElementById("st-deadline");
+              if (dlVal) {
+                dbEl.style.display = "flex";
+                dbEl.querySelector("span").textContent = formatDeadline(new Date(dlVal));
+              } else {
+                dbEl.style.display = "none";
+              }
+
+              const isDone2 = status === "completed";
+              document.getElementById("st-status-dot").className = `status-dot ${isDone2 ? "done" : "pending"}`;
+              document.getElementById("st-status-text").textContent = isDone2 ? "Completed" : "In Progress";
+
+              if (notesVal) {
+                document.getElementById("st-notes-wrap").style.display = "block";
+                document.getElementById("st-notes").textContent = notesVal;
+              } else {
+                document.getElementById("st-notes-wrap").style.display = "none";
+              }
+
+              msg.textContent = "Saved!";
+              setTimeout(() => {
+                msg.textContent = "";
+                window.toggleEditTask(false);
+              }, 700);
+            } catch (err) {
+              console.error(err);
+              msg.textContent = "Error saving";
+            }
+          };
+
+
+          // Load linked Notes (from the owner's Notes tab, filtered by taskId)
+          const canEditNotes = ["edit","full"].includes(permission);
+          let editingNoteId = null;
+
+          function escN(s) { return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+          function renderNotes(linked) {
+            const section = document.getElementById("linked-notes-section");
+            const list    = document.getElementById("shared-notes-list");
+            const addBtn  = document.getElementById("add-note-btn");
+
+            addBtn.style.display = canEditNotes ? "flex" : "none";
+
+            if (!linked.length && !canEditNotes) {
+              section.style.display = "none";
+              return;
+            }
+            section.style.display = "block";
+
+            list.innerHTML = linked.map(n => {
+              if (n.id === editingNoteId) {
+                return `
+                  <div class="shared-note-item ${n.color || "c-yellow"}">
+                    <div class="note-edit-form">
+                      <input type="text" id="note-edit-title-${n.id}" value="${escN(n.title || "")}" placeholder="Title">
+                      <textarea id="note-edit-body-${n.id}" rows="10" placeholder="Write your note...">${escN(n.body || "")}</textarea>
+                      <div class="note-edit-form-actions">
+                        <button class="note-edit-cancel" onclick="cancelEditNote()">Cancel</button>
+                        <button class="note-edit-save" onclick="saveLinkedNote('${n.id}')">Save</button>
+                      </div>
+                    </div>
+                  </div>`;
+              }
+              return `
+                <div class="shared-note-item ${n.color || "c-yellow"}">
+                  <div class="shared-note-item-top">
+                    <div class="shared-note-title">${escN(n.title || "Untitled")}</div>
+                    ${canEditNotes ? `<button class="note-edit-btn" onclick="startEditNote('${n.id}')"><i class="ti ti-pencil"></i> Edit</button>` : ""}
+                  </div>
+                  <div class="shared-note-body">${escN(n.body || "")}</div>
+                  ${n.tag ? `<span class="shared-note-tag">${escN(n.tag)}</span>` : ""}
+                </div>`;
+            }).join("") || (canEditNotes ? `<div class="comments-empty">No notes yet for this task.</div>` : "");
+          }
+
+          let lastLinkedNotes = [];
+
+          try {
+            const notesColRef = collection(db, "users", ownerUid, "notes");
+            const notesQ      = query(notesColRef, orderBy("updatedAt", "desc"));
+            onSnapshot(notesQ, (snap) => {
+              lastLinkedNotes = snap.docs
+                .map(d => ({ id: d.id, ...d.data() }))
+                .filter(n => n.taskId === taskId);
+              renderNotes(lastLinkedNotes);
+            }, err => {
+              console.log("Linked notes load skipped:", err.message);
+            });
+          } catch (e) {
+            console.log("Linked notes setup skipped:", e.message);
+          }
+
+          window.startEditNote = (noteId) => {
+            editingNoteId = noteId;
+            renderNotes(lastLinkedNotes);
+          };
+
+          window.cancelEditNote = () => {
+            editingNoteId = null;
+            renderNotes(lastLinkedNotes);
+          };
+
+          window.saveLinkedNote = async (noteId) => {
+            const title = document.getElementById(`note-edit-title-${noteId}`).value.trim();
+            const body  = document.getElementById(`note-edit-body-${noteId}`).value;
+            try {
+              await updateDoc(doc(db, "users", ownerUid, "notes", noteId), {
+                title: title || "Untitled",
+                body,
+                updatedAt: serverTimestamp()
+              });
+              editingNoteId = null;
+            } catch (err) {
+              console.error(err);
+              alert("Couldn't save note: " + err.message);
+            }
+          };
+
+          window.addLinkedNote = async () => {
+            try {
+              const ref = await addDoc(collection(db, "users", ownerUid, "notes"), {
+                title: "Untitled",
+                body: "",
+                tag: "",
+                color: "c-yellow",
+                taskId,
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+              });
+              editingNoteId = ref.id;
+            } catch (err) {
+              console.error(err);
+              alert("Couldn't add note: " + err.message);
+            }
+          };
+
+
 
           // Permission notice
           if (user && permission !== "full") {
