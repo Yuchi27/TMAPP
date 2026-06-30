@@ -12,6 +12,7 @@ body {
   height: 100dvh; /* fixes mobile browsers where 100vh is taller than the real visible screen */
   background: #f0f2f8;
   overflow: hidden;
+  margin-bottom: 80px;
 }
 
 /* ── TOPBAR ── */
