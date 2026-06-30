@@ -7,7 +7,7 @@ onAuthStateChanged(auth, async (user) => {
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
     if (!snap.exists()) return;
-    const { photoURL, name } = snap.data();
+    const { photoURL, name, role } = snap.data();
 
     // Update topbar avatar on every page
     const avatarEl = document.querySelector(".topbar .avatar");
@@ -22,6 +22,27 @@ onAuthStateChanged(auth, async (user) => {
       avatarEl.style.cursor = "pointer";
       avatarEl.title = name || user.email;
       avatarEl.onclick = () => window.location.href = "settings.html";
+    }
+
+    // Admins get a quick button back to their Admin Dashboard
+    if (role === "admin") {
+      const sidebarBottom = document.querySelector(".sidebar-bottom");
+      if (sidebarBottom && !document.getElementById("admin-dashboard-link")) {
+        const link = document.createElement("a");
+        link.id = "admin-dashboard-link";
+        link.href = "../admin/dashboard.html";
+        link.innerHTML = `<i class="ti ti-shield-check"></i> Admin Dashboard`;
+        sidebarBottom.prepend(link);
+      }
+
+      const bottomNav = document.querySelector(".bottom-nav");
+      if (bottomNav && !document.getElementById("admin-dashboard-link-mobile")) {
+        const link = document.createElement("a");
+        link.id = "admin-dashboard-link-mobile";
+        link.href = "../admin/dashboard.html";
+        link.innerHTML = `<i class="ti ti-shield-check"></i> Admin`;
+        bottomNav.appendChild(link);
+      }
     }
   } catch (e) {
     console.log("load-profile skipped:", e.message);

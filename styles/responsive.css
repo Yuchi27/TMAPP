@@ -280,20 +280,15 @@
     left: 0;
     right: 0;
     background: #1a2537;
-    height: 68px;
-    align-items: center;
-    justify-content: flex-start;
+    height: 62px;
+    align-items: stretch;
+    justify-content: space-between;
     z-index: 999;
     border-top: 1px solid #243044;
     box-shadow: 0 -4px 16px rgba(0,0,0,0.2);
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .bottom-nav::-webkit-scrollbar {
-    display: none;
+    /* No horizontal scrolling — bar stays put when tapped, doesn't slide */
+    overflow: hidden;
+    touch-action: manipulation;
   }
 
   .bottom-nav a {
@@ -301,20 +296,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
+    gap: 2px;
     color: #6b7a99;
     text-decoration: none;
-    font-size: 10px;
+    font-size: 0;
     font-weight: 600;
-    padding: 8px 0;
+    padding: 6px 0;
     border-radius: 10px;
     transition: color 0.15s;
-    flex: 0 0 auto;
-    width: 76px;
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
   }
 
   .bottom-nav a i {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .bottom-nav a.active {
@@ -327,6 +323,13 @@
 
   .bottom-nav a:hover {
     color: #fff;
+  }
+}
+
+/* Extra-small phones: shrink icons a bit more so every item still fits in one fixed row */
+@media (max-width: 380px) {
+  .bottom-nav a i {
+    font-size: 18px;
   }
 }
 

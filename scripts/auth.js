@@ -69,7 +69,9 @@ window.doLogin = async () => {
   if (!email || !pass) return setMsg('li-msg', 'Fill in all fields.', 'err');
 
   try {
-    await setPersistence(auth, rem ? browserLocalPersistence : browserSessionPersistence);
+    // Always keep the user signed in until they explicitly sign out.
+    // (No more getting logged out just from closing the browser/tab.)
+    await setPersistence(auth, browserLocalPersistence);
     const cred = await signInWithEmailAndPassword(auth, email, pass);
     await redirectByRole(cred.user);
   } catch (e) {
