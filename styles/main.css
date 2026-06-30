@@ -97,6 +97,19 @@ body {
   flex-direction: column;
   padding: 16px 12px;
   flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #3a4768 transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #3a4768;
+  border-radius: 4px;
 }
 
 .sidebar nav {

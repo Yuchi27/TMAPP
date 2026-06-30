@@ -4,6 +4,21 @@ import {
   collection, query, where, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+function keepActiveNavInView() {
+  const nav = document.querySelector(".bottom-nav");
+  const active = nav?.querySelector("a.active");
+  if (!nav || !active) return;
+  // Position instantly (no smooth animation) so it doesn't look like it's "sliding back"
+  const target = active.offsetLeft - (nav.clientWidth / 2) + (active.clientWidth / 2);
+  nav.scrollLeft = Math.max(0, target);
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", keepActiveNavInView);
+} else {
+  keepActiveNavInView();
+}
+
 onAuthStateChanged(auth, (user) => {
   if (!user) return;
 
