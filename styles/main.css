@@ -9,6 +9,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh; /* fixes mobile browsers where 100vh is taller than the real visible screen */
   background: #f0f2f8;
   overflow: hidden;
 }
