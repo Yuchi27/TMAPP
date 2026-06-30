@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TaskOra — Messages</title>
+  <title>TaskOra — Social Feed</title>
   <meta name="theme-color" content="#1a2537">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../styles/main.css">
   <link rel="stylesheet" href="../styles/darkmode.css">
   <link rel="stylesheet" href="../styles/responsive.css">
-  <link rel="stylesheet" href="../styles/messages.css">
+  <link rel="stylesheet" href="../styles/social.css">
   <script src="../scripts/loader.js"></script>
   <script src="../scripts/theme.js"></script>
 </head>
@@ -22,7 +22,7 @@
   <!-- TOPBAR -->
   <div class="topbar">
     <img src="../icons/Frame 7.png" class="logo-up" alt="taskora logo">
-    <div class="page-title">Messages</div>
+    <div class="page-title">Social Feed</div>
     <div class="topbar-right">
       <div class="notif-wrap">
         <button class="notif-btn" id="notif-bell" onclick="toggleNotifDropdown()">
@@ -56,8 +56,11 @@
         <a href="notes.html"><i class="ti ti-notebook"></i> Notes</a>
         <a href="analytics.html"><i class="ti ti-chart-bar"></i> Analytics</a>
         <a href="shared-with-me.html"><i class="ti ti-share"></i> Shared with Me</a>
-        <a href="social.html"><i class="ti ti-brand-hipchat"></i> Social Feed</a>
-        <a href="messages.html" class="active"><i class="ti ti-messages"></i> Messages</a>
+        <a href="social.html" class="active"><i class="ti ti-brand-hipchat"></i> Social Feed</a>
+      <a href="messages.html">
+  <i class="ti ti-messages"></i> Messages
+  <span class="messages-nav-badge"></span>
+</a>
       </nav>
       <div class="sidebar-bottom">
         <a href="settings.html"><i class="ti ti-settings"></i> Settings</a>
@@ -67,34 +70,44 @@
       <div class="sidebar-footer">© 2026 — Archie L. Agui Jr.. All rights reserved.</div>
     </aside>
 
-    <!-- MAIN: Chat Layout -->
-    <main class="main msg-main">
-      <div class="msg-layout">
+    <!-- MAIN -->
+    <main class="main">
+      <div class="social-layout">
 
-        <!-- LEFT PANEL: Conversation list -->
-        <div class="msg-sidebar" id="msg-sidebar">
-          <div class="msg-sidebar-header">
-            <div class="msg-tabs">
-              <button class="msg-tab active" data-tab="dm" onclick="switchTab('dm')"><i class="ti ti-message"></i> DMs</button>
-              <button class="msg-tab" data-tab="group" onclick="switchTab('group')"><i class="ti ti-users"></i> Groups</button>
+        <!-- LEFT: FEED -->
+        <div class="feed-col">
+
+          <!-- Post Composer -->
+          <div class="composer-card">
+            <div class="composer-top">
+              <div class="composer-avatar" id="composer-avatar"><i class="ti ti-user"></i></div>
+              <textarea id="post-content" class="composer-input" placeholder="Share an update, achievement, or thought with your team..." rows="3"></textarea>
             </div>
-            <button class="msg-new-btn" id="new-chat-btn" onclick="openNewChatModal()" title="New conversation"><i class="ti ti-edit"></i></button>
+            <div class="composer-actions">
+              <div class="composer-tags">
+                <button class="tag-btn active" data-type="update"><i class="ti ti-message"></i> Update</button>
+                <button class="tag-btn" data-type="achievement"><i class="ti ti-trophy"></i> Achievement</button>
+                <button class="tag-btn" data-type="question"><i class="ti ti-help-circle"></i> Question</button>
+              </div>
+              <button class="btn-post" onclick="submitPost()"><i class="ti ti-send"></i> Post</button>
+            </div>
           </div>
-          <div class="msg-search-wrap">
-            <i class="ti ti-search"></i>
-            <input type="text" id="conv-search" placeholder="Search conversations..." oninput="filterConversations()">
-          </div>
-          <div class="conv-list" id="conv-list">
-            <div class="conv-empty">No conversations yet</div>
+
+          <!-- Feed -->
+          <div id="feed-list">
+            <div class="feed-empty"><i class="ti ti-mood-empty"></i><br>No posts yet. Be the first to share!</div>
           </div>
         </div>
 
-        <!-- RIGHT PANEL: Chat window -->
-        <div class="msg-chat" id="msg-chat">
-          <div class="chat-placeholder">
-            <i class="ti ti-messages" style="font-size:48px;color:#c8d0e0"></i>
-            <p>Select a conversation to start chatting</p>
-            <button class="btn-start-chat" onclick="openNewChatModal()"><i class="ti ti-plus"></i> New Message</button>
+        <!-- RIGHT: SIDEBAR -->
+        <div class="social-sidebar">
+          <div class="social-sidebar-card">
+            <div class="social-sidebar-title"><i class="ti ti-users"></i> Active Users</div>
+            <div id="active-users-list"><div class="feed-empty" style="font-size:12px">Loading...</div></div>
+          </div>
+          <div class="social-sidebar-card">
+            <div class="social-sidebar-title"><i class="ti ti-trending-up"></i> Top Posts</div>
+            <div id="top-posts-list"><div class="feed-empty" style="font-size:12px">No posts yet</div></div>
           </div>
         </div>
       </div>
@@ -103,44 +116,20 @@
 
   <!-- Bottom Nav (mobile) -->
   <nav class="bottom-nav">
-      <a href="dashboard.html"><i class="ti ti-layout-dashboard"></i> Home</a>
-  <a href="tasks.html"><i class="ti ti-checkbox"></i> Tasks</a>
-  <a href="calendar.html"><i class="ti ti-calendar"></i> Calendar</a>
-  <a href="schedule.html"><i class="ti ti-star"></i> Schedule</a>
-   <a href="notes.html"><i class="ti ti-notebook"></i> Notes</a>
-  <a href="analytics.html"><i class="ti ti-chart-bar"></i> Analytics</a>
+   <a href="dashboard.html"><i class="ti ti-layout-dashboard"></i> Home</a>
+    <a href="tasks.html"><i class="ti ti-checkbox"></i> Tasks</a>
+    <a href="calendar.html"><i class="ti ti-calendar"></i> Calendar</a>
+    <a href="schedule.html"><i class="ti ti-star"></i> Schedule</a>
+    <a href="notes.html"><i class="ti ti-notebook"></i> Notes</a>
+    <a href="analytics.html"><i class="ti ti-chart-bar"></i> Analytics</a>
         <a href="shared-with-me.html"><i class="ti ti-share"></i> Shared with Me</a>
-         <a href="social.html"><i class="ti ti-brand-hipchat"></i> Feed</a>
-    <a href="messages.html" class="active"><i class="ti ti-messages"></i> Messages</a>
-  <a href="settings.html"><i class="ti ti-settings"></i> Settings</a>
+        <a href="social.html" class="active"><i class="ti ti-brand-hipchat"></i> Feed</a>
+    <a href="messages.html">
+  <i class="ti ti-messages"></i> Messages
+  <span class="messages-nav-badge"></span>
+</a>
+    <a href="settings.html"><i class="ti ti-settings"></i> Settings</a>
   </nav>
-
-  <!-- New DM Modal -->
-  <div id="new-dm-modal" class="modal-overlay" style="display:none">
-    <div class="modal new-chat-modal">
-      <div class="modal-header">
-        <h3 id="new-modal-title">New Direct Message</h3>
-        <button class="modal-close-btn" onclick="closeNewChatModal()"><i class="ti ti-x"></i></button>
-      </div>
-      <div class="modal-body">
-        <div class="fld">
-          <label id="new-modal-label">Search users by email</label>
-          <input type="text" id="user-search-input" placeholder="Enter email address..." oninput="searchUsers()">
-        </div>
-        <!-- Group name field (only for groups) -->
-        <div class="fld" id="group-name-field" style="display:none">
-          <label>Group Name</label>
-          <input type="text" id="group-name-input" placeholder="Enter group name...">
-        </div>
-        <div id="user-search-results" class="user-search-results"></div>
-        <div id="selected-users" class="selected-users"></div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-cancel" onclick="closeNewChatModal()">Cancel</button>
-        <button class="btn-primary" onclick="createConversation()"><i class="ti ti-check"></i> <span id="create-btn-label">Start Chat</span></button>
-      </div>
-    </div>
-  </div>
 
   <script>
     function toggleNotifDropdown() {
@@ -161,7 +150,7 @@
     }
   </script>
   <script src="../scripts/pwa.js"></script>
-  <script type="module" src="../scripts/messages.js"></script>
+  <script type="module" src="../scripts/social.js"></script>
   <script type="module" src="../scripts/load-profile.js"></script>
   <script type="module" src="../scripts/nav-badge.js"></script>
 </body>
