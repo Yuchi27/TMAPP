@@ -1,7 +1,7 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
-  collection, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp
+  collection, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { initNotifications, loadNotifications } from "./notifications.js";
 
@@ -40,6 +40,9 @@ function buildCard(share, task) {
     <div class="swm-card" id="swm-card-${share.taskId}">
       <div class="swm-card-top">
         <div class="swm-task-title">${task?.title || share.taskTitle || "Untitled Task"}</div>
+        <button class="swm-delete-btn" title="Remove" onclick="removeSharedTask('${share.taskId}')">
+          <i class="ti ti-trash"></i>
+        </button>
       </div>
 
       <div class="swm-owner">
@@ -74,6 +77,19 @@ function buildCard(share, task) {
       </div>
     </div>`;
 }
+
+// Remove a shared task from the user's sharedWithMe list
+window.removeSharedTask = async (taskId) => {
+  if (!confirm("Remove this shared task from your list?")) return;
+  const { auth, db } = await import("./firebase.js");
+  const user = auth.currentUser;
+  if (!user) return;
+  try {
+    await deleteDoc(doc(db, "users", user.uid, "sharedWithMe", taskId));
+  } catch (err) {
+    alert("Couldn't remove: " + err.message);
+  }
+};
 
 // Open comments from shared-with-me page
 window.openSharedComments = (taskId, ownerUid, taskTitle) => {
