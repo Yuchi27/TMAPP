@@ -5,8 +5,8 @@ import {
   addDoc, deleteDoc, doc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const START_HOUR = 7;  // 7:00 AM
-const END_HOUR = 19;   // 7:00 PM (last row label)
+const DEFAULT_START = 7;
+const DEFAULT_END   = 19;
 const ROW_HEIGHT = 60; // px, must match .sched-row-line / .sched-time-cell height
 
 let currentUser = null;
@@ -55,13 +55,39 @@ function renderWeekLabel() {
 
 function renderGrid() {
   const grid = document.getElementById("sched-grid");
-  const numRows = END_HOUR - START_HOUR + 1;
+
   const days = [];
   for (let i = 0; i < 7; i++) {
     const d = new Date(weekStart);
     d.setDate(weekStart.getDate() + i);
     days.push(d);
   }
+
+  // Compute visible range from this week's actual schedules
+  const weekKeys = days.map(dateKey);
+  const weekItems = allSchedules.filter(s => weekKeys.includes(s.date));
+
+  let minHour = DEFAULT_START;
+  let maxHour = DEFAULT_END;
+
+  weekItems.forEach(s => {
+    if (s.startTime) {
+      const h = parseInt(s.startTime.split(":")[0]);
+      if (h < minHour) minHour = h;
+    }
+    if (s.endTime) {
+      const h = parseInt(s.endTime.split(":")[0]);
+      const m = parseInt(s.endTime.split(":")[1] || 0);
+      const ceil = m > 0 ? h + 1 : h;
+      if (ceil > maxHour) maxHour = ceil;
+    }
+  });
+
+  // Pad 1 hour on each side so blocks don't clip the edge
+  const START_HOUR = Math.max(0, minHour - 1);
+  const END_HOUR   = Math.min(23, maxHour + 1);
+
+  const numRows = END_HOUR - START_HOUR + 1;
   const dayNames = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
   let html = `<div class="sched-time-head"></div>`;

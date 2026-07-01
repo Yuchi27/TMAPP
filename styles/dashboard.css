@@ -134,6 +134,29 @@
   min-height: 180px;
 }
 
+/* scrollable list inside panels (Recent Registrations, Admin Accounts) */
+#recent-users,
+#admin-list,
+#recent-announcements {
+  max-height: 280px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3a4768 transparent;
+}
+
+#recent-users::-webkit-scrollbar,
+#admin-list::-webkit-scrollbar,
+#recent-announcements::-webkit-scrollbar {
+  width: 5px;
+}
+
+#recent-users::-webkit-scrollbar-thumb,
+#admin-list::-webkit-scrollbar-thumb,
+#recent-announcements::-webkit-scrollbar-thumb {
+  background: #3a4768;
+  border-radius: 4px;
+}
+
 .panel-header {
   display: flex;
   align-items: center;

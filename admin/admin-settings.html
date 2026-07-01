@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TMA — Admin Settings</title>
+  <meta name="theme-color" content="#1a2537">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="TMAPP">
+  <link rel="manifest" href="../manifest.json">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/settings.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <link rel="stylesheet" href="../styles/admin-settings.css">
+  <link rel="stylesheet" href="../styles/darkmode.css">
+  <link rel="stylesheet" href="../styles/responsive.css">
+  <script src="../scripts/theme.js"></script>
+  <script src="../scripts/loader.js"></script>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <img src="../icons/Frame 7.png" class="logo-up" alt="taskora logo">
+    <div class="page-title">Admin Settings</div>
+    <div class="topbar-right">
+      <div class="avatar"><i class="ti ti-shield-check"></i></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- SIDEBAR (admin) -->
+    <aside class="sidebar">
+      <nav>
+       
+        <a href="admin-settings.html" class="active"><i class="ti ti-settings"></i> App Settings</a>
+        
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="dashboard.html" id="go-to-app"><i class="ti ti-arrow-back"></i> Exit to App</a>
+      
+      </div>
+      <div class="sidebar-footer">© 2026 — Archie L. Agui Jr.. All rights reserved.</div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <div class="settings-card">
+        <h3>App Info</h3>
+
+        <div class="fld">
+          <label>App name</label>
+          <input type="text" id="app-name-input" placeholder="e.g. Taskora">
+        </div>
+
+        <div class="fld" style="margin-top:12px">
+          <label>Support email</label>
+          <input type="email" id="support-email-input" placeholder="support@example.com">
+        </div>
+
+        <button class="btn-save" id="app-info-save-btn" style="margin-top:14px">Save Changes</button>
+        <div class="msg" id="app-info-msg"></div>
+      </div>
+
+      <div class="settings-card">
+        <div class="row-header">
+          <h3>Maintenance Mode</h3>
+          <span id="maintenance-pill" class="pill">Loading…</span>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Enable maintenance mode</div>
+            <div class="setting-sub">Blocks all non-admin users from using the app immediately</div>
+          </div>
+          <button class="toggle" id="maintenance-toggle">
+            <span class="toggle-knob"></span>
+          </button>
+        </div>
+
+        <div class="fld" style="margin-top:16px">
+          <label>Message shown to users</label>
+          <textarea id="maintenance-message-input" rows="3" placeholder="We're currently performing scheduled maintenance. Please check back soon."></textarea>
+        </div>
+
+        <button class="btn-save" id="maintenance-save-btn" style="margin-top:14px">Save Changes</button>
+        <div class="msg" id="maintenance-msg"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../scripts/admin-settings.js"></script>
+</body>
+</html>

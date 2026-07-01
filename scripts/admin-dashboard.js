@@ -85,6 +85,11 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("recent-users").innerHTML = sorted.length
     ? sorted.map(u => `
         <div class="panel-item">
+          <div class="panel-avatar">
+            ${u.photoURL
+              ? `<img src="${u.photoURL}" alt="${u.name || ''}">`
+              : `<span>${(u.name || "?").charAt(0).toUpperCase()}</span>`}
+          </div>
           <div>
             <div class="user-name">${u.name || "Unknown"}</div>
             <div class="user-email">${u.email || ""} · ${formatDate(u.createdAt)}</div>
@@ -96,6 +101,11 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("admin-list").innerHTML = admins.length
     ? admins.map(u => `
         <div class="panel-item">
+          <div class="panel-avatar">
+            ${u.photoURL
+              ? `<img src="${u.photoURL}" alt="${u.name || ''}">`
+              : `<span>${(u.name || "?").charAt(0).toUpperCase()}</span>`}
+          </div>
           <div>
             <div class="user-name">${u.name || "Unknown"}</div>
             <div class="user-email">${u.email || ""}</div>

@@ -302,7 +302,7 @@ async function createAndSaveNote(taskId) {
 
     document.getElementById("nd-edit-title")?.setAttribute("oninput", "scheduleAutosave()");
     document.getElementById("nd-edit-tag")?.setAttribute("oninput", "scheduleAutosave()");
-    document.getElementById("nd-edit-text")?.setAttribute("oninput", "autoResizeTA(this);scheduleAutosave()");
+    document.getElementById("nd-edit-text")?.setAttribute("oninput", "scheduleAutosave()");
 
   } catch (err) {
     console.error(err);
@@ -387,7 +387,7 @@ window.startInlineEdit = (id) => {
         </div>
         <div class="nd-vertical-resizer" id="nd-vertical-resizer"></div>
         <textarea class="nd-edit-text" id="nd-edit-text" placeholder="Write something..."
-          oninput="autoResizeTA(this);scheduleAutosave()"
+          oninput="scheduleAutosave()"
         >${esc(note.body || "")}</textarea>
       </div>
     </div>`;
@@ -535,8 +535,15 @@ window.deleteAttachment = async (idx) => {
 };
 
 window.autoResizeTA = (el) => {
+  // Save scroll position of the note detail container BEFORE collapsing height
+  const detail = document.getElementById("note-detail");
+  const scrollY = detail ? detail.scrollTop : 0;
+
   el.style.height = "auto";
   el.style.height = el.scrollHeight + "px";
+
+  // Restore scroll position so the page doesn't jump back to top
+  if (detail) detail.scrollTop = scrollY;
 };
 
 function buildInlineColorPicker() {

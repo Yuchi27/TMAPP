@@ -106,6 +106,67 @@
   cursor: default;
 }
 
+.btn-suspend {
+  background: #f5a62322;
+  color: #f5a623;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-suspend:hover { background: #f5a62344; }
+
+.btn-ban {
+  background: #e74c3c22;
+  color: #e74c3c;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-ban:hover { background: #e74c3c44; }
+
+.btn-unban {
+  background: #27ae6022;
+  color: #27ae60;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-unban:hover { background: #27ae6044; }
+
+.role-badge.banned {
+  background: #e74c3c22;
+  color: #e74c3c;
+}
+.role-badge.suspended {
+  background: #f5a62322;
+  color: #f5a623;
+}
+.role-badge.active-badge {
+  background: #27ae6022;
+  color: #27ae60;
+}
+
+tr.row-banned  { opacity: 0.6; background: #e74c3c08; }
+tr.row-suspended { background: #f5a62308; }
+
 /* ── USER AVATAR ── */
 .user-row-info {
   display: flex;
@@ -188,8 +249,9 @@
 /* ── PANEL ITEM (recent users) ── */
 .panel-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 10px 0;
   border-bottom: 1px solid #243044;
 }
@@ -212,6 +274,32 @@
   font-size: 13px;
   text-align: center;
   margin-top: 16px;
+}
+
+/* ── PANEL AVATAR (profile picture in dashboard lists) ── */
+.panel-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #365c98;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.panel-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.panel-avatar span {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 /* ── MOBILE TABLE ── */
@@ -241,6 +329,10 @@
     display: flex;
     flex-direction: column;
     overflow: hidden; 
+}
+
+.ann.msg {  /* ilisi sa tinuod nga class name */
+  white-space: pre-wrap;
 }
 
 .ann-list {
@@ -612,3 +704,43 @@
     }
 
 }
+/* ── AUDIT LOGS ── */
+.audit-action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.audit-user {
+  font-weight: 600;
+  color: #fff;
+  font-size: 13px;
+}
+
+.audit-by {
+  color: #8a9bb0;
+  font-size: 12px;
+}
+
+.btn-clear-logs {
+  background: #e74c3c22;
+  color: #e74c3c;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.btn-clear-logs:hover { background: #e74c3c33; }
+.btn-clear-logs:disabled { opacity: 0.5; cursor: not-allowed; }

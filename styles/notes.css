@@ -442,6 +442,8 @@
   resize: none;
   font-family: 'Inter', sans-serif;
   min-height: 200px;
+  /* Let the textarea grow naturally with content — no JS height hacks needed */
+  field-sizing: content;
   height: auto;
   flex: none;
   overflow-y: hidden;

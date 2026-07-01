@@ -5,12 +5,26 @@
   font-family: 'Inter', sans-serif;
 }
 
+/* ── THEME VARIABLES (defaults = your original Indigo theme) ──
+   Overridden by [data-preset] rules in customization.css and by
+   an inline --tma-accent set from the color picker in Settings. */
+:root {
+  --tma-bg: #f0f2f8;
+  --tma-surface: #1a2537;       /* topbar + sidebar bg */
+  --tma-surface-hover: #243044; /* sidebar link hover */
+  --tma-accent: #3b4fc8;        /* sidebar active, buttons, toggles */
+  --tma-accent-soft: rgba(59, 79, 200, 0.12);
+  --tma-avatar-bg: #3a4560;
+  --tma-footer-text: #4a5570;
+  --tma-danger: #e74c3c;
+}
+
 body {
   display: flex;
   flex-direction: column;
   height: 100vh;
   height: 100dvh; /* fixes mobile browsers where 100vh is taller than the real visible screen */
-  background: #f0f2f8;
+  background: var(--tma-bg);
   overflow: hidden;
 }
 
@@ -18,7 +32,7 @@ body {
 .topbar {
   display: flex;
   align-items: center;
-  background: #1a2537;
+  background: var(--tma-surface);
   padding: 0 28px;
   height: 62px;
   flex-shrink: 0;
@@ -73,7 +87,7 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #3a4560;
+  background: var(--tma-avatar-bg);
   border: 2px solid #fff;
   display: flex;
   align-items: center;
@@ -95,7 +109,7 @@ body {
 /* ── SIDEBAR ── */
 .sidebar {
   width: 190px;
-  background: #1a2537;
+  background: var(--tma-surface);
   display: flex;
   flex-direction: column;
   padding: 16px 12px;
@@ -136,12 +150,12 @@ body {
 }
 
 .sidebar a:hover {
-  background: #243044;
+  background: var(--tma-surface-hover);
   color: #fff;
 }
 
 .sidebar a.active {
-  background: #3b4fc8;
+  background: var(--tma-accent);
   color: #fff;
 }
 
@@ -167,12 +181,12 @@ body {
   flex: 1;
   overflow-y: auto;
   padding: 28px 32px 100px; /* extra bottom space */
-  background: #f0f2f8;
+  background: var(--tma-bg);
 }
 
 /* ── FOOTER ── */
 .sidebar-footer {
-  color: #4a5570;
+  color: var(--tma-footer-text);
   font-size: 11px;
   padding: 12px 4px 0;
   line-height: 1.5;
@@ -199,7 +213,7 @@ body {
   position: absolute;
   top: -4px;
   right: -4px;
-  background: #e74c3c;
+  background: var(--tma-danger);
   color: #fff;
   font-size: 10px;
   font-weight: 700;
@@ -244,7 +258,7 @@ body {
 .notif-dropdown-header button {
   background: none;
   border: none;
-  color: #6c63ff;
+  color: var(--tma-accent);
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -265,8 +279,8 @@ body {
 .notif-item:hover { background: #f7f8fc; }
 
 .notif-item.unread {
-  background: #eef1ff;
-  border-left: 3px solid #6c63ff;
+  background: var(--tma-accent-soft);
+  border-left: 3px solid var(--tma-accent);
 }
 
 .notif-item-title {
@@ -299,7 +313,7 @@ body {
   position: fixed;
   top: 70px;
   right: 20px;
-  background: #1a2537;
+  background: var(--tma-surface);
   color: #fff;
   padding: 14px 18px;
   border-radius: 12px;

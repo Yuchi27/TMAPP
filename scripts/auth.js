@@ -6,7 +6,8 @@ import {
   setPersistence,
   browserLocalPersistence,
   browserSessionPersistence,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   doc,
@@ -23,7 +24,22 @@ async function redirectByRole(user) {
     console.log("UID:", user.uid);
     console.log("Doc exists:", snap.exists());
     console.log("Data:", snap.data());
-    if (snap.exists() && snap.data().role === "admin") {
+
+    const data = snap.data() || {};
+    const status = data.status || "active";
+
+    if (status === "banned") {
+      await signOut(auth);
+      setMsg("li-msg", "Your account has been banned. Please contact the administrator.", "err");
+      return;
+    }
+    if (status === "suspended") {
+      await signOut(auth);
+      setMsg("li-msg", "Your account is currently suspended. Please contact the administrator.", "err");
+      return;
+    }
+
+    if (snap.exists() && data.role === "admin") {
       window.location.replace("../admin/dashboard.html");
     } else {
       window.location.replace("dashboard.html");

@@ -10,6 +10,10 @@ const nicknameInput   = document.getElementById("nickname-input");
 const saveBtn         = document.getElementById("profile-save-btn");
 const msgEl           = document.getElementById("profile-msg");
 
+const swatchEls        = document.querySelectorAll(".theme-swatch");
+const customAccentInput = document.getElementById("custom-accent-input");
+const resetAccentBtn    = document.getElementById("reset-accent-btn");
+
 let pendingPhotoDataUrl = null;
 
 function syncToggleUI() {
@@ -20,6 +24,7 @@ function syncToggleUI() {
 darkToggle.addEventListener("click", () => {
   window.toggleTheme();
   syncToggleUI();
+  saveThemePrefs();
 });
 
 function setMsg(text, type) {
@@ -99,6 +104,57 @@ saveBtn.addEventListener("click", async () => {
   }
 });
 
+// ── CUSTOMIZATION: theme presets + custom accent ──
+function syncSwatchUI() {
+  const activePreset = window.getCustomAccent() ? null : window.getPreset();
+  swatchEls.forEach(el => {
+    el.classList.toggle("selected", !window.getCustomAccent() && el.dataset.preset === activePreset);
+  });
+  const customAccent = window.getCustomAccent();
+  if (customAccent) customAccentInput.value = customAccent;
+}
+
+swatchEls.forEach(el => {
+  el.addEventListener("click", () => {
+    window.applyPreset(el.dataset.preset);
+    syncSwatchUI();
+    saveThemePrefs();
+  });
+});
+
+customAccentInput.addEventListener("input", () => {
+  window.setCustomAccent(customAccentInput.value);
+  syncSwatchUI();
+});
+
+customAccentInput.addEventListener("change", () => {
+  saveThemePrefs();
+});
+
+resetAccentBtn.addEventListener("click", () => {
+  window.applyPreset("indigo");
+  customAccentInput.value = "#3b4fc8";
+  syncSwatchUI();
+  saveThemePrefs();
+});
+
+// Debounced Firestore write so cross-device sync doesn't spam writes
+// while someone is dragging the color picker around.
+let saveThemeTimer = null;
+function saveThemePrefs() {
+  clearTimeout(saveThemeTimer);
+  saveThemeTimer = setTimeout(async () => {
+    if (!auth.currentUser) return;
+    try {
+      await updateDoc(doc(db, "users", auth.currentUser.uid), {
+        theme: window.getTheme(),
+        themePreset: window.getPreset(),
+        accentColor: window.getCustomAccent() || null,
+      });
+    } catch {}
+  }, 400);
+}
+
 // ── CHANGE PASSWORD ──
 document.getElementById("change-pass-btn").addEventListener("click", async () => {
   const newPass     = document.getElementById("new-pass").value;
@@ -150,6 +206,7 @@ onAuthStateChanged(auth, async (user) => {
   nicknameInput.value = user.displayName || user.email.split("@")[0];
   document.getElementById("profile-email").textContent = user.email;
   syncToggleUI();
+  syncSwatchUI();
 
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
@@ -171,6 +228,18 @@ onAuthStateChanged(auth, async (user) => {
         const d = data.createdAt.toDate();
         document.getElementById("user-joined").textContent =
           d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+      }
+
+      // Cross-device theme sync: apply whatever this account saved
+      // elsewhere, then refresh the picker UI to match.
+      if (window.syncThemeFromProfile) {
+        window.syncThemeFromProfile({
+          theme: data.theme,
+          preset: data.themePreset,
+          accentColor: data.accentColor,
+        });
+        syncToggleUI();
+        syncSwatchUI();
       }
     }
   } catch(e) {}

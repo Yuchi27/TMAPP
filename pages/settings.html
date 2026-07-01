@@ -14,6 +14,7 @@
   <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../styles/main.css">
   <link rel="stylesheet" href="../styles/settings.css">
+  <link rel="stylesheet" href="../styles/customization.css">
   <link rel="stylesheet" href="../styles/darkmode.css">
   <link rel="stylesheet" href="../styles/responsive.css">
   <script src="../scripts/theme.js"></script>
@@ -111,6 +112,31 @@
           <button class="toggle" id="dark-toggle">
             <span class="toggle-knob"></span>
           </button>
+        </div>
+      </div>
+
+      <!-- CUSTOMIZATION (theme presets + custom accent color) -->
+      <div class="settings-card">
+        <h3>Customization</h3>
+        <div class="setting-label" style="margin-bottom:4px">Accent Color</div>
+        <div class="setting-sub">Pick a theme or set your own color — applies across the whole app</div>
+
+        <div class="theme-swatches" id="theme-swatches">
+          <div class="theme-swatch" data-swatch="indigo" data-preset="indigo" title="Indigo"><i class="ti ti-check"></i></div>
+          <div class="theme-swatch" data-swatch="ocean" data-preset="ocean" title="Ocean"><i class="ti ti-check"></i></div>
+          <div class="theme-swatch" data-swatch="forest" data-preset="forest" title="Forest"><i class="ti ti-check"></i></div>
+          <div class="theme-swatch" data-swatch="sunset" data-preset="sunset" title="Sunset"><i class="ti ti-check"></i></div>
+          <div class="theme-swatch" data-swatch="grape" data-preset="grape" title="Grape"><i class="ti ti-check"></i></div>
+          <div class="theme-swatch" data-swatch="rose" data-preset="rose" title="Rose"><i class="ti ti-check"></i></div>
+        </div>
+
+        <div class="custom-accent-row">
+          <input type="color" id="custom-accent-input" value="#3b4fc8">
+          <div>
+            <div class="custom-accent-label">Custom color</div>
+            <div class="custom-accent-sub">Overrides the preset above</div>
+          </div>
+          <button class="btn-text-reset" id="reset-accent-btn">Reset to default</button>
         </div>
       </div>
  

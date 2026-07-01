@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TMAPP — Manage Users</title>
+  <title>TMAPP — Audit Logs</title>
   <meta name="theme-color" content="#1a2537">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -23,10 +23,9 @@
 
   <div id="loader"><div class="spinner"></div></div>
 
-  <!-- TOPBAR -->
   <div class="topbar">
     <img src="../icons/Frame 7.png" class="logo-up" alt="taskora logo">
-    <div class="page-title">Manage Users</div>
+    <div class="page-title">Audit Logs</div>
     <div class="topbar-right">
       <button class="notif-btn"><i class="ti ti-bell"></i></button>
       <div class="avatar"><i class="ti ti-user"></i></div>
@@ -37,15 +36,14 @@
     <aside class="sidebar">
       <nav>
         <a href="dashboard.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
-        <a href="users.html" class="active"><i class="ti ti-users"></i> Manage Users</a>
+        <a href="users.html"><i class="ti ti-users"></i> Manage Users</a>
         <a href="announcements.html"><i class="ti ti-speakerphone"></i> Announcements</a>
-        <a href="audit-logs.html"><i class="ti ti-clipboard-list"></i> Audit Logs</a>
-      
-    <a href="../pages/settings.html"><i class="ti ti-settings"></i> Settings</a>
-    <a href="admin-settings.html"><i class="ti ti-settings"></i> App Settings</a>
+        <a href="audit-logs.html" class="active"><i class="ti ti-clipboard-list"></i> Audit Logs</a>
+        <a href="../pages/settings.html"><i class="ti ti-settings"></i> Settings</a>
+        <a href="admin-settings.html"><i class="ti ti-settings"></i> App Settings</a>
       </nav>
       <div class="sidebar-bottom">
-        <a href="#" id="go-to-app"><i class="ti ti-arrow-left"></i> Go to App</a>
+        <a href="../pages/dashboard.html" id="go-to-app"><i class="ti ti-arrow-left"></i> Go to App</a>
         <a href="#" id="logout-btn"><i class="ti ti-logout"></i> Sign out</a>
       </div>
       <div class="sidebar-footer">© 2026 — Archie L. Agui Jr.. All rights reserved.</div>
@@ -53,57 +51,62 @@
 
     <main class="main">
 
-      <!-- SEARCH + FILTER -->
+      <!-- TOOLBAR -->
       <div class="toolbar" style="margin-bottom:20px">
-        <div class="search-wrap" style="max-width:360px">
+        <div class="search-wrap" style="max-width:340px">
           <i class="ti ti-search"></i>
-          <input type="text" id="search-input" placeholder="Search users...">
+          <input type="text" id="log-search" placeholder="Search logs...">
         </div>
         <div class="filter-btns">
-          <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
-          <button class="filter-btn" onclick="setFilter('admin', this)">Admins</button>
-          <button class="filter-btn" onclick="setFilter('user', this)">Regular</button>
-          <button class="filter-btn" onclick="setFilter('suspended', this)">Suspended</button>
-          <button class="filter-btn" onclick="setFilter('banned', this)">Banned</button>
+          <button class="filter-btn active" onclick="setLogFilter('all', this)">All</button>
+          <button class="filter-btn" onclick="setLogFilter('MAKE_ADMIN', this)">Make Admin</button>
+          <button class="filter-btn" onclick="setLogFilter('REMOVE_ADMIN', this)">Remove Admin</button>
+          <button class="filter-btn" onclick="setLogFilter('BANNED', this)">Banned</button>
+          <button class="filter-btn" onclick="setLogFilter('SUSPENDED', this)">Suspended</button>
+          <button class="filter-btn" onclick="setLogFilter('ACTIVE', this)">Unbanned</button>
+        </div>
+        <button class="btn-clear-logs" id="clear-logs-btn" onclick="confirmClearLogs()">
+          <i class="ti ti-trash"></i> Clear All Logs
+        </button>
+      </div>
+
+      <!-- LOGS TABLE -->
+      <div class="panel" style="padding:0">
+        <div class="table-container">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Target User</th>
+                <th>Performed By</th>
+                <th>Detail</th>
+                <th>Date & Time</th>
+              </tr>
+            </thead>
+            <tbody id="logs-tbody">
+              <tr><td colspan="5" style="text-align:center;padding:24px;color:#8a9bb0">Loading logs...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <!-- USERS TABLE -->
-      <div class="panel" style="padding:0;">
-       <div class="table-container">
-        <table class="users-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Joined</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="users-tbody">
-            <tr><td colspan="5" style="text-align:center;padding:24px;color:#8a9bb0">Loading users...</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <div id="logs-count" style="text-align:right;margin-top:10px;color:#6b7a99;font-size:12px"></div>
 
     </main>
   </div>
 
   <!-- Bottom Nav (mobile) -->
   <nav class="bottom-navi">
-    <a href="dashboard.html" ><i class="ti ti-layout-dashboard"></i> Home</a>
-    <a href="users.html" class="active"><i class="ti ti-users"></i> Users</a>
+    <a href="dashboard.html"><i class="ti ti-layout-dashboard"></i> Home</a>
+    <a href="users.html"><i class="ti ti-users"></i> Users</a>
     <a href="announcements.html"><i class="ti ti-speakerphone"></i> Announce</a>
-    <a href="audit-logs.html"><i class="ti ti-clipboard-list"></i> Audit Logs</a>
+    <a href="audit-logs.html" class="active"><i class="ti ti-clipboard-list"></i> Logs</a>
     <a href="admin-settings.html"><i class="ti ti-settings"></i> App Settings</a>
-     
     <a href="../pages/settings.html"><i class="ti ti-settings"></i> Settings</a>
     <a href="../pages/dashboard.html" id="go-to-app-mobile"><i class="ti ti-arrow-left"></i> App</a>
   </nav>
 
   <script src="../scripts/pwa.js"></script>
-  <script type="module" src="../scripts/admin-users.js"></script>
+  <script type="module" src="../scripts/admin-audit-logs.js"></script>
 </body>
 </html>

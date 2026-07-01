@@ -1,0 +1,119 @@
+/* ── PRESET PALETTES ──
+   Activated via [data-preset="..."] on <html>, set by theme.js applyPreset().
+   Only --tma-accent / --tma-accent-soft change between presets — surface
+   (topbar/sidebar) colors stay as-is so dark mode still layers on top
+   cleanly via darkmode.css. */
+
+[data-preset="ocean"] {
+  --tma-accent: #0ea5e9;
+  --tma-accent-soft: rgba(14, 165, 233, 0.12);
+}
+
+[data-preset="forest"] {
+  --tma-accent: #27ae60;
+  --tma-accent-soft: rgba(39, 174, 96, 0.12);
+}
+
+[data-preset="sunset"] {
+  --tma-accent: #f97316;
+  --tma-accent-soft: rgba(249, 115, 22, 0.12);
+}
+
+[data-preset="grape"] {
+  --tma-accent: #8b5cf6;
+  --tma-accent-soft: rgba(139, 92, 246, 0.12);
+}
+
+[data-preset="rose"] {
+  --tma-accent: #e8497a;
+  --tma-accent-soft: rgba(232, 73, 122, 0.12);
+}
+
+/* ── SWATCH PICKER (used in Settings → Customization) ── */
+.theme-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.theme-swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  transition: transform 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.theme-swatch:hover { transform: scale(1.08); }
+
+.theme-swatch.selected {
+  border-color: #1a2537;
+}
+
+.theme-swatch.selected i { display: block; }
+.theme-swatch i { display: none; }
+
+.theme-swatch[data-swatch="indigo"] { background: #3b4fc8; }
+.theme-swatch[data-swatch="ocean"]  { background: #0ea5e9; }
+.theme-swatch[data-swatch="forest"] { background: #27ae60; }
+.theme-swatch[data-swatch="sunset"] { background: #f97316; }
+.theme-swatch[data-swatch="grape"]  { background: #8b5cf6; }
+.theme-swatch[data-swatch="rose"]   { background: #e8497a; }
+
+/* Custom color picker row */
+.custom-accent-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e8eaf0;
+}
+
+.custom-accent-row input[type="color"] {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+}
+.custom-accent-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; border-radius: 50%; }
+.custom-accent-row input[type="color"]::-webkit-color-swatch { border: 2px solid #d0d8e8; border-radius: 50%; }
+
+.custom-accent-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2537;
+}
+.custom-accent-sub {
+  font-size: 12px;
+  color: #8a93ab;
+  margin-top: 2px;
+}
+
+.btn-text-reset {
+  background: none;
+  border: none;
+  color: #8a93ab;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: auto;
+  text-decoration: underline;
+}
+.btn-text-reset:hover { color: #1a2537; }
+
+/* Dark mode tweaks for the picker itself */
+[data-theme="dark"] .theme-swatch.selected { border-color: #e4e7f0; }
+[data-theme="dark"] .custom-accent-row { border-top-color: #262e42; }
+[data-theme="dark"] .custom-accent-label { color: #f0f2f8; }
